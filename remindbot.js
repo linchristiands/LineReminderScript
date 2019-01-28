@@ -2,7 +2,7 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
-
+const schedule = require('node-schedule');
 const defaultAccessToken = '***********************';
 const defaultSecret = '***********************';
 
@@ -23,26 +23,28 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// register a webhook handler with middleware
-// about the middleware, please refer to doc
-app.post('/webhook', line.middleware(config), (req, res) => {
+app.post('/callback', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
+    .then((result) => 
+    res.json(result))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).end();
+    });
 });
 
 // event handler
 function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    // ignore non-text-message event
-    return Promise.resolve(null);
-  }
-
   // create a echoing text message
-  const echo = { type: 'text', text: event.message.text };
+  const msg = { type: 'text', text: "毒を飲んでください!"};
 
+  var j = schedule.scheduleJob('*/1 * * * *', function(){
+    client.replyMessage(event.replyToken, msg);
+  });
+  
   // use reply API
-  return client.replyMessage(event.replyToken, echo);
+  return;
 }
 
 // listen on port
