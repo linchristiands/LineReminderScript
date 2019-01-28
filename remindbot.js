@@ -42,9 +42,11 @@ function handleEvent(event) {
   const msg = { type: 'text', text: "毒を飲んでください!" };
   
   // use reply API
-  //var j = schedule.scheduleJob('*/5 * * * *', function(){
+  var j = schedule.scheduleJob('*/10 * * * * *', function(){
+    console.log('ScheduleJob');
+  });
     client.replyMessage(event.replyToken, msg);
-  //});
+  
   
   return;
 }
