@@ -38,12 +38,14 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 // event handler
 function handleEvent(event) {
   var userId=event.source.userId;
+  console.log(userId);
   // create a echoing text message
   const msg = { type: 'text', text: "毒を飲んでください!" };
   
   // use reply API
   var j = schedule.scheduleJob('* */20 * * * *', function(){
     console.log('ScheduleJob');
+  });
   client.pushMessage(userId, msg)
   .then(() => {
 
@@ -51,8 +53,6 @@ function handleEvent(event) {
   .catch((err) => {
     console.error(err);
   });
-  });
-
   return;
 }
 
