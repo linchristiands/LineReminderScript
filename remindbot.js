@@ -38,11 +38,7 @@ app.post('/callback', line.middleware(config), (req, res) => {
 function handleEvent(event) {
   // create a echoing text message
   const msg = { type: 'text', text: "毒を飲んでください!"};
-
-  var j = schedule.scheduleJob('*/1 * * * *', function(){
-    client.replyMessage(event.replyToken, msg);
-  });
-  
+  client.replyMessage(event.replyToken, msg);
   // use reply API
   return;
 }
