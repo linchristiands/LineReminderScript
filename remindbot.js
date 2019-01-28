@@ -44,10 +44,9 @@ function handleEvent(event) {
   // use reply API
   var j = schedule.scheduleJob('*/5 * * * * *', function(){
     console.log('ScheduleJob');
-  });
     client.replyMessage(event.replyToken, msg);
-  
-  
+  });
+
   return;
 }
 
