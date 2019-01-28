@@ -1,0 +1,32 @@
+{
+  "name": "oboebot",
+  "version": "1.0.0",
+  "description": "Remind bot for LINE",
+  "main": "remindbot.js",
+  "scripts": {
+    "start": "node remindbot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.heroku.com/oboebot.git"
+  },
+  "author": "LinC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://git.heroku.com/oboebot/issues"
+  },
+  "homepage": "https://git.heroku.com/oboebot#readme",
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.16.4"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^6.4.0",
+    "pg": "^7.4.1",
+    "pg-native": "^2.2.0"
+  },
+  "engines": {
+    "node": "^8.0.0"
+  }
+}
