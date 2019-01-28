@@ -1,16 +1,10 @@
 'use strict';
-const https = require('https');
+
 const line = require('@line/bot-sdk');
 const express = require('express');
 
-var Client = require('pg-native');
-console.log(process.env.DATABASE_URL);
-var client = new Client({
-  ssl: true
-});
-client.connectSync(process.env.DATABASE_URL);
-
-let saveData = [];
+const defaultAccessToken = '***********************';
+const defaultSecret = '***********************';
 
 // create LINE SDK config from env variables
 const config = {
@@ -19,34 +13,36 @@ const config = {
 };
 
 // create LINE SDK client
-const lineclient = new line.Client(config);
+const client = new line.Client(config);
 
 // create Express app
 // about Express itself: https://expressjs.com/
 const app = express();
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
-app.post('/callback', line.middleware(config), (req, res) => {
+app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
-    .then((result) => 
-    res.json(result))
-    .catch((err) => {
-      console.error(err);
-      res.status(500).end();
-    });
+    .then((result) => res.json(result));
 });
-var replyLine;
+
 // event handler
 function handleEvent(event) {
-    console.log("handle Event");
-  var userId;
-  var username;
-  userId=event.source.userId;
-  replyLine="Test Remindme";
-  lineclient.replyMessage(event.replyToken, replyLine);
-  return;
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
+  // create a echoing text message
+  const echo = { type: 'text', text: event.message.text };
+
+  // use reply API
+  return client.replyMessage(event.replyToken, echo);
 }
 
 // listen on port
