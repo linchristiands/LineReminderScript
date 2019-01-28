@@ -2,7 +2,7 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
-const schedule = require('node-schedule');
+
 const defaultAccessToken = '***********************';
 const defaultSecret = '***********************';
 
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.post('/callback', line.middleware(config), (req, res) => {
+app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => 
@@ -36,11 +36,16 @@ app.post('/callback', line.middleware(config), (req, res) => {
 
 // event handler
 function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
   // create a echoing text message
-  const msg = { type: 'text', text: "毒を飲んでください!"};
- 
+  const echo = { type: 'text', text: event.message.text };
+
   // use reply API
-  return client.replyMessage(event.replyToken, msg);
+  return client.replyMessage(event.replyToken, echo);
 }
 
 // listen on port
