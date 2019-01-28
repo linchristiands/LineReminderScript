@@ -2,6 +2,7 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
+const schedule = require('node-schedule');
 
 const defaultAccessToken = '***********************';
 const defaultSecret = '***********************';
@@ -39,9 +40,13 @@ function handleEvent(event) {
 
   // create a echoing text message
   const msg = { type: 'text', text: "毒を飲んでください!" };
-
+  
   // use reply API
-  return client.replyMessage(event.replyToken, msg);
+  var j = schedule.scheduleJob('*/1 * * * *', function(){
+    client.replyMessage(event.replyToken, msg);
+  });
+  
+  return;
 }
 
 // listen on port
