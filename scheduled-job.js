@@ -16,7 +16,7 @@ const client = new line.Client(config);
 
 function scheduledRemind() {
     const msg = { type: 'text', text: "毒を飲んでください!" };
-    client.pushMessage(userId, msg)
+    client.pushMessage('Uf9dbaca29d6a4e45f6e9ca9df122cb4c', msg)
     .then(() => {
   
     })
@@ -24,4 +24,4 @@ function scheduledRemind() {
       console.error(err);
     });
 }
-sayHello();
+scheduledRemind();

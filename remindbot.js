@@ -41,18 +41,7 @@ function handleEvent(event) {
   console.log(userId);
   // create a echoing text message
   const msg = { type: 'text', text: "毒を飲んでください!" };
-  
   // use reply API
-  var j = schedule.scheduleJob('* */20 * * * *', function(){
-    console.log('ScheduleJob');
-  });
-  client.pushMessage(userId, msg)
-  .then(() => {
-
-  })
-  .catch((err) => {
-    console.error(err);
-  });
   return;
 }
 
