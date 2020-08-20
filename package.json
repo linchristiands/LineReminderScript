@@ -19,7 +19,7 @@
   "homepage": "https://git.heroku.com/oboebot#readme",
   "dependencies": {
     "@line/bot-sdk": "^6.4.0",
-    "bcrypt": "^0.8.5",
+    "bcrypt": "^5.0.0",
     "body-parser": "*",
     "express": "*",
     "node-schedule": "^1.3.1",
